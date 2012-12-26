@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:adjustViewBounds="true"
+                   android:scaleType="centerInside"
+		android:id="@+id/boxes_bg_view" />
+	<edu.sfsu.cs.orange.ocr.BoxesfinderView
+		android:id="@+id/boxesfinder_view" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:background="#0000" />
+
+</RelativeLayout>
