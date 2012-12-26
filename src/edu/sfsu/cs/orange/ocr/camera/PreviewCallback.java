@@ -47,7 +47,7 @@ final class PreviewCallback implements Camera.PreviewCallback {
 
   // Since we're not calling setPreviewFormat(int), the data arrives here in the YCbCr_420_SP 
   // (NV21) format.
-  @Override
+ // @Override
   public void onPreviewFrame(byte[] data, Camera camera) {
     Point cameraResolution = configManager.getCameraResolution();
     Handler thePreviewHandler = previewHandler;

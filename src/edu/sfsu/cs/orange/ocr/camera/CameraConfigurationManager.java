@@ -159,7 +159,7 @@ final class CameraConfigurationManager {
     // Sort by size, descending
     List<Camera.Size> supportedPreviewSizes = new ArrayList<Camera.Size>(parameters.getSupportedPreviewSizes());
     Collections.sort(supportedPreviewSizes, new Comparator<Camera.Size>() {
-      @Override
+    //  @Override
       public int compare(Camera.Size a, Camera.Size b) {
         int aPixels = a.height * a.width;
         int bPixels = b.height * b.width;

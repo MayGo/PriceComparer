@@ -69,7 +69,9 @@ public final class CameraManager {
     this.configManager = new CameraConfigurationManager(context);
     previewCallback = new PreviewCallback(configManager);
   }
-
+  public CameraConfigurationManager getConfigManager(){
+	  return configManager;
+  }
   /**
    * Opens the camera driver and initializes the hardware parameters.
    *
@@ -77,7 +79,9 @@ public final class CameraManager {
    * @throws IOException Indicates the camera driver failed to open.
    */
   public synchronized void openDriver(SurfaceHolder holder) throws IOException {
+	  Log.i(TAG, "open driverŽ1");
     Camera theCamera = camera;
+   
     if (theCamera == null) {
       theCamera = Camera.open();
       if (theCamera == null) {
@@ -85,15 +89,12 @@ public final class CameraManager {
       }
       camera = theCamera;
     }
+    Log.i(TAG, "open driverŽ1");
     camera.setPreviewDisplay(holder);
     if (!initialized) {
       initialized = true;
       configManager.initFromCameraParameters(theCamera);
-      if (requestedFramingRectWidth > 0 && requestedFramingRectHeight > 0) {
-        adjustFramingRect(requestedFramingRectWidth, requestedFramingRectHeight);
-        requestedFramingRectWidth = 0;
-        requestedFramingRectHeight = 0;
-      }
+      
     }
     configManager.setDesiredCameraParameters(theCamera);
     
@@ -174,7 +175,7 @@ public final class CameraManager {
    *
    * @return The rectangle to draw on screen in window coordinates.
    */
-  public synchronized Rect getFramingRect() {
+  /*public synchronized Rect getFramingRect() {
     if (framingRect == null) {
       if (camera == null) {
         return null;
@@ -201,36 +202,15 @@ public final class CameraManager {
       framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
     }
     return framingRect;
-  }
+  }*/
 
-  /**
-   * Like {@link #getFramingRect} but coordinates are in terms of the preview frame,
-   * not UI / screen.
-   */
-  public synchronized Rect getFramingRectInPreview() {
-    if (framingRectInPreview == null) {
-      Rect rect = new Rect(getFramingRect());
-      Point cameraResolution = configManager.getCameraResolution();
-      Point screenResolution = configManager.getScreenResolution();
-      if (cameraResolution == null || screenResolution == null) {
-        // Called early, before init even finished
-        return null;
-      }
-      rect.left = rect.left * cameraResolution.x / screenResolution.x;
-      rect.right = rect.right * cameraResolution.x / screenResolution.x;
-      rect.top = rect.top * cameraResolution.y / screenResolution.y;
-      rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
-      framingRectInPreview = rect;
-    }
-    return framingRectInPreview;
-  }
-
+  
   /**
    * Changes the size of the framing rect.
    * 
    * @param deltaWidth Number of pixels to adjust the width
    * @param deltaHeight Number of pixels to adjust the height
-   */
+   *//*
   public synchronized void adjustFramingRect(int deltaWidth, int deltaHeight) {
     if (initialized) {
       Point screenResolution = configManager.getScreenResolution();
@@ -254,24 +234,7 @@ public final class CameraManager {
       requestedFramingRectHeight = deltaHeight;
     }
   }
+*/
 
-  /**
-   * A factory method to build the appropriate LuminanceSource object based on the format
-   * of the preview buffers, as described by Camera.Parameters.
-   *
-   * @param data A preview frame.
-   * @param width The width of the image.
-   * @param height The height of the image.
-   * @return A PlanarYUVLuminanceSource instance.
-   */
-  public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
-    Rect rect = getFramingRectInPreview();
-    if (rect == null) {
-      return null;
-    }
-    // Go ahead and assume it's YUV rather than die.
-    return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
-                                        rect.width(), rect.height(), reverseImage);
-  }
 
 }

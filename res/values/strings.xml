@@ -14,7 +14,13 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
- -->
+-->
 <resources>
+
     <string name="app_name">OCR Test</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_boxes">BoxesActivity</string>
+    <string name="new_box">Uus kast</string>
+
 </resources>

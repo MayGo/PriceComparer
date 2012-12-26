@@ -117,7 +117,7 @@ public class PreferencesActivity extends PreferenceActivity implements
    * @param key
    *            the key of the preference that was changed, added, or removed
    */
-  @Override
+ // @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {    
     // Update preference summary values to show current preferences

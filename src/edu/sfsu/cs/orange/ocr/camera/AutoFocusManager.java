@@ -61,7 +61,7 @@ public final class AutoFocusManager implements Camera.AutoFocusCallback {
     checkAndStart();
   }
 
-  @Override
+ // @Override
   public synchronized void onAutoFocus(boolean success, Camera theCamera) {
     if (active && !manual) {
       outstandingTask = new TimerTask() {

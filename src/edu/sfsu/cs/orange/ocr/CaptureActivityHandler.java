@@ -16,6 +16,8 @@
  */
 package edu.sfsu.cs.orange.ocr;
 
+import java.util.ArrayList;
+
 import edu.sfsu.cs.orange.ocr.CaptureActivity;
 import edu.sfsu.cs.orange.ocr.R;
 import edu.sfsu.cs.orange.ocr.camera.CameraManager;
@@ -59,7 +61,7 @@ final class CaptureActivityHandler extends Handler {
     
     decodeThread = new DecodeThread(activity);
     decodeThread.start();
-    
+    Log.i("dsfsd", "CaptureActivityHandler");
     if (isContinuousModeActive) {
       state = State.CONTINUOUS;
 
@@ -101,7 +103,7 @@ final class CaptureActivityHandler extends Handler {
       case R.id.ocr_continuous_decode_succeeded:
         DecodeHandler.resetDecodeState();
         try {
-          activity.handleOcrContinuousDecode((OcrResult) message.obj);
+          activity.handleOcrContinuousDecode((ArrayList<OcrResult>) message.obj);
         } catch (NullPointerException e) {
           // Continue
         }
@@ -112,7 +114,7 @@ final class CaptureActivityHandler extends Handler {
       case R.id.ocr_decode_succeeded:
         state = State.SUCCESS;
         activity.setShutterButtonClickable(true);
-        activity.handleOcrDecode((OcrResult) message.obj);
+        activity.handleOcrDecode((ArrayList<OcrResult>) message.obj);
         break;
       case R.id.ocr_decode_failed:
         state = State.PREVIEW;
