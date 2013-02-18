@@ -193,10 +193,10 @@ public final class CaptureActivity extends Activity
 	private TextView statusViewBottom;
 	private TextView statusViewTop;
 	private TextView ocrResultView;
-	private TextView translationView;
+
 	private View cameraButtonView;
 	private View resultView;
-	private View progressView;
+	
 	private ArrayList<OcrResult> lastResult;
 	private Bitmap lastBitmap;
 	private boolean hasSurface;
@@ -298,10 +298,7 @@ public final class CaptureActivity extends Activity
 
 		ocrResultView = (TextView) findViewById(R.id.ocr_result_text_view);
 		registerForContextMenu(ocrResultView);
-		translationView = (TextView) findViewById(R.id.translation_text_view);
-		registerForContextMenu(translationView);
 		cameraManager = new CameraManager(getApplication());
-		progressView = (View) findViewById(R.id.indeterminate_progress_indicator_view);
 
 		// Restore preferences
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -938,9 +935,7 @@ public final class CaptureActivity extends Activity
 		
 		
 		ImageView bitmapImageView = (ImageView) findViewById(R.id.image_view);
-		TextView sourceLanguageTextView = (TextView) findViewById(R.id.source_language_text_view);
 		TextView ocrResultTextView = (TextView) findViewById(R.id.ocr_result_text_view);
-		sourceLanguageTextView.setText(sourceLanguageReadable);
 		
 		LinearLayout imageViewParent = (LinearLayout) findViewById(R.id.image_views);
 		LinearLayout textViewParent = (LinearLayout) findViewById(R.id.text_views);
@@ -1131,12 +1126,7 @@ public final class CaptureActivity extends Activity
 					"Copy recognized text");
 			menu.add(Menu.NONE, OPTIONS_SHARE_RECOGNIZED_TEXT_ID, Menu.NONE,
 					"Share recognized text");
-		} else if (v.equals(translationView)) {
-			menu.add(Menu.NONE, OPTIONS_COPY_TRANSLATED_TEXT_ID, Menu.NONE,
-					"Copy translated text");
-			menu.add(Menu.NONE, OPTIONS_SHARE_TRANSLATED_TEXT_ID, Menu.NONE,
-					"Share translated text");
-		}
+		} 
 	}
 
 	@Override
@@ -1163,25 +1153,7 @@ public final class CaptureActivity extends Activity
 				startActivity(Intent.createChooser(shareRecognizedTextIntent,
 						"Share via"));
 				return true;
-			case OPTIONS_COPY_TRANSLATED_TEXT_ID :
-				clipboardManager.setText(translationView.getText());
-				if (clipboardManager.hasText()) {
-					Toast toast = Toast.makeText(this, "Text copied.",
-							Toast.LENGTH_LONG);
-					toast.setGravity(Gravity.BOTTOM, 0, 0);
-					toast.show();
-				}
-				return true;
-			case OPTIONS_SHARE_TRANSLATED_TEXT_ID :
-				Intent shareTranslatedTextIntent = new Intent(
-						android.content.Intent.ACTION_SEND);
-				shareTranslatedTextIntent.setType("text/plain");
-				shareTranslatedTextIntent.putExtra(
-						android.content.Intent.EXTRA_TEXT,
-						translationView.getText());
-				startActivity(Intent.createChooser(shareTranslatedTextIntent,
-						"Share via"));
-				return true;
+		
 			default :
 				return super.onContextItemSelected(item);
 		}

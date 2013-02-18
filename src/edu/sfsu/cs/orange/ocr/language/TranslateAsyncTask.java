@@ -33,8 +33,6 @@ public final class TranslateAsyncTask extends AsyncTask<String, String, Boolean>
   private static final String TAG = TranslateAsyncTask.class.getSimpleName();
 
   private CaptureActivity activity;
-  private TextView textView;
-  private View progressView;
  // private TextView targetLanguageTextView;
   private String sourceLanguageCode;
   private String targetLanguageCode;
@@ -47,8 +45,6 @@ public final class TranslateAsyncTask extends AsyncTask<String, String, Boolean>
     this.sourceLanguageCode = sourceLanguageCode;
     this.targetLanguageCode = targetLanguageCode;
     this.sourceText = sourceText;
-    textView = (TextView) activity.findViewById(R.id.translation_text_view);
-    progressView = (View) activity.findViewById(R.id.indeterminate_progress_indicator_view);
    // targetLanguageTextView = (TextView) activity.findViewById(R.id.translation_language_text_view);
   }
   
@@ -73,13 +69,9 @@ public final class TranslateAsyncTask extends AsyncTask<String, String, Boolean>
 //      if (targetLanguageTextView != null) {
 //        targetLanguageTextView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL), Typeface.NORMAL);
 //      }
-      textView.setText(translatedText);
-      textView.setVisibility(View.VISIBLE);
-      textView.setTextColor(activity.getResources().getColor(R.color.translation_text));
 
       // Crudely scale betweeen 22 and 32 -- bigger font for shorter text
       int scaledSize = Math.max(22, 32 - translatedText.length() / 4);
-      textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
 
     } else {
       Log.e(TAG, "FAILURE");
@@ -89,8 +81,5 @@ public final class TranslateAsyncTask extends AsyncTask<String, String, Boolean>
     }
     
     // Turn off the indeterminate progress indicator
-    if (progressView != null) {
-      progressView.setVisibility(View.GONE);
-    }
   }
 }
